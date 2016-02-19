@@ -16,6 +16,7 @@ type statusPageStruct struct {
 	CanNext      bool
 	CanPrevious  bool
 	Status       []model.Status
+	Islogin      bool
 }
 
 //HandleStatus : Handle display status page
@@ -41,7 +42,7 @@ func HandleStatus(w http.ResponseWriter, r *http.Request) {
 	if p-1 >= 0 {
 		canPrevious = true
 	}
-	result := statusPageStruct{p, p + 1, p - 1, canNext, canPrevious, status}
+	result := statusPageStruct{p, p + 1, p - 1, canNext, canPrevious, status, getIslogin(r)}
 	Render.HTML(w, http.StatusOK, "status", result)
 
 }

@@ -1,10 +1,20 @@
+{{if .HaveInfo}}
+<div class="alert alert-danger alert-dismissible fade in" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  {{.Info}}
+</div>
+{{end}}
 <br>
 <div class="container">
     <h2>Problems</h2>
     <br>
     <div class="card">
         <div class="card-header">
+          {{if $.Isadmin}}
             <a class="gray" href="#" data-toggle="modal" data-target="#addModal"><i class="fa fa-plus"></i></a>
+            {{end}}
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
@@ -27,7 +37,9 @@
             {{range .Problems}}
             <li class="list-group-item">
                 <strong><a href="/problem?id={{.ID}}" class="black">{{.Title}}</a></strong>&nbsp;&nbsp;
+                {{if $.Isadmin}}
                 <a href="#" class="pull-right" data-toggle="modal" data-target="#editModal{{.ID}}"><i class="fa fa-pencil"></i></a>
+                {{end}}
                 <!-- <span class="label label-danger">math</span> -->
                 <br>
                 <small class="comment-phrase"> #{{.ID}} {{.AcRate}}%({{.Ac}}/{{.Total}})</small>

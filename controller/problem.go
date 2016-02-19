@@ -9,6 +9,11 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+type result struct {
+	Problem model.Problem
+	Islogin bool
+}
+
 //HandleProblem : handle "/problem?id=:id"
 func HandleProblem(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
@@ -19,10 +24,10 @@ func HandleProblem(w http.ResponseWriter, r *http.Request) {
 	session := getMongoS()
 	defer session.Close()
 	c := session.DB("oj").C("problems")
-	var result model.Problem
-	err = c.Find(bson.M{"id": id}).One(&result)
+	var ret model.Problem
+	err = c.Find(bson.M{"id": id}).One(&ret)
 	if err != nil {
 		panic(err)
 	}
-	Render.HTML(w, http.StatusOK, "problem", result)
+	Render.HTML(w, http.StatusOK, "problem", result{ret, getIslogin(r)})
 }

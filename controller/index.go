@@ -4,7 +4,10 @@ import (
 	"net/http"
 	"strconv"
 
+	"gopkg.in/boj/redistore.v1"
+
 	"github.com/Miloas/oj/model"
+	"github.com/gorilla/context"
 )
 
 const problemsPageNum int = 1
@@ -17,6 +20,12 @@ type problemsPageStruct struct {
 	CanPrevious  bool
 	Pagination   []int
 	Problems     []model.Problem
+	Islogin      bool
+	Isadmin      bool
+
+	//index info content
+	HaveInfo bool
+	Info     string
 }
 
 //HandleHome :handle "/"
@@ -47,6 +56,27 @@ func HandleHome(w http.ResponseWriter, r *http.Request) {
 	if p-1 >= 0 {
 		canPrevious = true
 	}
-	result := problemsPageStruct{p, p + 1, p - 1, canNext, canPrevious, pagination, problems}
+	store, err := redistore.NewRediStore(10, "tcp", ":6379", "", []byte("secret-key"))
+	if err != nil {
+		panic(err)
+	}
+	defer store.Close()
+	// Get a session.
+	accountSession, _ := store.Get(r, "info")
+	// Add a value.
+	loginInfo := accountSession.Values["loginInfo"]
+	// Save.
+	accountSession.Options.MaxAge = -1
+	accountSession.Save(r, w)
+	ok := true
+	val := ""
+	if loginInfo == nil {
+		ok = false
+	} else {
+		val = loginInfo.(string)
+	}
+	result := problemsPageStruct{p, p + 1, p - 1, canNext, canPrevious, pagination, problems, getIslogin(r), getIsadmin(r), ok, val}
+	//defer store.Close()
+	context.Clear(r)
 	Render.HTML(w, http.StatusOK, "index", result)
 }
