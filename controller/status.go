@@ -42,7 +42,7 @@ func HandleStatus(w http.ResponseWriter, r *http.Request) {
 	if p-1 >= 0 {
 		canPrevious = true
 	}
-	result := statusPageStruct{p, p + 1, p - 1, canNext, canPrevious, status, getIslogin(r)}
+	result := statusPageStruct{p, p + 1, p - 1, canNext, canPrevious, status, GetIslogin(r)}
 	Render.HTML(w, http.StatusOK, "status", result)
 
 }

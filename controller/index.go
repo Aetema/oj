@@ -75,7 +75,7 @@ func HandleHome(w http.ResponseWriter, r *http.Request) {
 	} else {
 		val = loginInfo.(string)
 	}
-	result := problemsPageStruct{p, p + 1, p - 1, canNext, canPrevious, pagination, problems, getIslogin(r), getIsadmin(r), ok, val}
+	result := problemsPageStruct{p, p + 1, p - 1, canNext, canPrevious, pagination, problems, GetIslogin(r), GetIsadmin(r), ok, val}
 	//defer store.Close()
 	context.Clear(r)
 	Render.HTML(w, http.StatusOK, "index", result)

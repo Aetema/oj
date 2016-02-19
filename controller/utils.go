@@ -42,7 +42,8 @@ func cryptoPassword(password string) string {
 	return hex.EncodeToString(h.Sum(nil))
 }
 
-func getIslogin(r *http.Request) bool {
+//GetIslogin : check if or not login
+func GetIslogin(r *http.Request) bool {
 	store, err := redistore.NewRediStore(10, "tcp", ":6379", "", []byte("secret-key"))
 	if err != nil {
 		panic(err)
@@ -53,7 +54,8 @@ func getIslogin(r *http.Request) bool {
 	return accountSession.Values["currentuser"] != nil
 }
 
-func getLoginUser(r *http.Request) *model.User {
+//GetLoginUser : get login user info
+func GetLoginUser(r *http.Request) *model.User {
 	store, err := redistore.NewRediStore(10, "tcp", ":6379", "", []byte("secret-key"))
 	if err != nil {
 		panic(err)
@@ -63,8 +65,9 @@ func getLoginUser(r *http.Request) *model.User {
 	return accountSession.Values["currentuser"].(*model.User)
 }
 
-func getIsadmin(r *http.Request) bool {
-	if !getIslogin(r) {
+//GetIsadmin : check if or not login user is admin
+func GetIsadmin(r *http.Request) bool {
+	if !GetIslogin(r) {
 		return false
 	}
 	store, err := redistore.NewRediStore(10, "tcp", ":6379", "", []byte("secret-key"))

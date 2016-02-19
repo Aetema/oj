@@ -29,5 +29,5 @@ func HandleProblem(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	Render.HTML(w, http.StatusOK, "problem", result{ret, getIslogin(r)})
+	Render.HTML(w, http.StatusOK, "problem", result{ret, GetIslogin(r)})
 }
