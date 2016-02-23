@@ -78,3 +78,16 @@ func GetIsadmin(r *http.Request) bool {
 	accountSession, _ := store.Get(r, "user")
 	return accountSession.Values["currentuser"].(*model.User).Role == "admin"
 }
+
+//CheckInStringArray : check key if or not in stringArray
+func CheckInStringArray(key string, stringArray []string) bool {
+	if len(stringArray) <= 0 {
+		return false
+	}
+	for _, val := range stringArray {
+		if val == key {
+			return true
+		}
+	}
+	return false
+}

@@ -9,15 +9,24 @@ import (
 //Routes : router
 func Routes() *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/problem/add", controller.HandleAddProblem)
-	mux.HandleFunc("/problem/remove", controller.HandleRemoveProblem)
-	mux.HandleFunc("/problem/update", controller.HandleUpdateProblem)
+	mux.HandleFunc("/problem/add", controller.HandleAddProblem)       // need admin
+	mux.HandleFunc("/problem/remove", controller.HandleRemoveProblem) // need admin
+	mux.HandleFunc("/problem/update", controller.HandleUpdateProblem) // need admin
 	mux.HandleFunc("/problem/submit", controller.HandleSubmitCode)
 	mux.HandleFunc("/problem", controller.HandleProblem)
 	mux.HandleFunc("/status", controller.HandleStatus)
 	mux.HandleFunc("/signup", controller.HandleSignup)
 	mux.HandleFunc("/signout", controller.HandleSignout)
 	mux.HandleFunc("/signin", controller.HandleSignin)
+	mux.HandleFunc("/contests", controller.HandleContests)
+	mux.HandleFunc("/contest", controller.HandleContest)
+	mux.HandleFunc("/contest/add", controller.HandleAddContest)       // need admin
+	mux.HandleFunc("/contest/remove", controller.HandleRemoveContest) // need admin
+	mux.HandleFunc("/contest/update", controller.HandleUpdateContest) // need admin
+	mux.HandleFunc("/contest/problems/submit", controller.HandleContestSubmit)
+	mux.HandleFunc("/contest/problems", controller.HandleContestProblems)
+	mux.HandleFunc("/contest/status", controller.HandleContestStatus)
+	mux.HandleFunc("/contest/board", controller.HandleContestBoard)
 	//display problems list
 	mux.HandleFunc("/", controller.HandleHome)
 	//add static file server for include static files

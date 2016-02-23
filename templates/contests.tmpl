@@ -1,0 +1,71 @@
+<br>
+<div class="container">
+    <h2>Contest &nbsp;<a class="gray addIconSize" href="#" data-toggle="modal" data-target="#addContestModal"><i class="fa fa-plus"></i></a></h2>
+
+    <br>
+
+    <div class="list-group">
+      <a href="#" class="list-group-item">
+        <h4 class="list-group-item-heading">第一届西北大学程序设计竞赛 <div class="pull-right timeFont">2006-01-02 15:04:05</div></h4>
+        <div class="list-group-item-text">请参赛同学互相通知，提前注册比赛，过时不候.</div>
+      </a>
+    </div>
+</div>
+
+<div id="addContestModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Add Contest</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addcontestform">
+                    <label for="contestName" class="control-label">Name:</label>
+                    <input type="text" name="contestName" class="form-control">
+                    <label for="contestStartTime" class="control-label">Start time:</label>
+                    <input type="datetime-local" name="contestStartTime" class="form-control">
+                    <label for="contestHowlong" class="control-label">How long:</label>
+                    <select class="form-control" name="contestHowlong">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                    <label for="contestDescription" class="control-label">Contest description (less than 31 plz):</label>
+                    <input type="text" name="contestDescription" class="form-control">
+                    <label for="contestProblems" class="control-label">Contest problems(输入题目ID,用空格隔开):</label>
+                    <input type="text" name="contestProblems" class="form-control">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <input type="submit" id="submitAdd" data-dismiss="modal" class="btn btn-primary" value="Save Contest">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+    $("input#submitAdd").click(function () {
+      // alert($('form#addcontestform input[name=contestStartTime]').val())
+      // alert($('form#addcontestform select[name=contestHowlong]').val())
+        $.ajax({
+            type: "POST",
+            url: "/contest/add",
+            data: $('form#addcontestform').serialize(),
+            success: function (msg) {
+              window.location.href = "/contests"
+            },
+            error: function () {
+                //alert("failure");
+            }
+        });
+    });
+});
+</script>

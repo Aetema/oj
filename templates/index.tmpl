@@ -18,7 +18,7 @@
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
-                <strong><a href="#" class="black">A + B Problem</a></strong>&nbsp;&nbsp;<span class="label label-primary">dp</span>&nbsp;
+                <strong><a href="#" class="black"><del>A + B Problem</del></a></strong>&nbsp;&nbsp;<span class="label label-primary">dp</span>&nbsp;
                 <span class="label label-success">brute-force</span>
                 <br>
                 <small class="comment-phrase"> #1000 43%(100/1729)</small>
@@ -36,7 +36,7 @@
             </li>
             {{range .Problems}}
             <li class="list-group-item">
-                <strong><a href="/problem?id={{.ID}}" class="black">{{.Title}}</a></strong>&nbsp;&nbsp;
+                <strong><a href="/problem?id={{.ID}}" class="black">{{if isAccepeted .ID $.HaveAccepted}}<del>{{.Title}}</del>{{else}}{{.Title}}{{end}}</a></strong>&nbsp;&nbsp;
                 {{if $.Isadmin}}
                 <a href="#" class="pull-right" data-toggle="modal" data-target="#editModal{{.ID}}"><i class="fa fa-pencil"></i></a>
                 {{end}}

@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/gob"
+	"html/template"
 
 	"github.com/Miloas/oj/model"
 	"github.com/garyburd/redigo/redis"
@@ -27,15 +28,15 @@ const GlobalRequestVariable Key = 0
 
 // Init :init controller methods
 func init() {
-	// funcMap := template.FuncMap{
-	// 	"islogin": func() string {
-	// 		return "done something"
-	// 	},
-	// }
+	funcMap := template.FuncMap{
+		"isAccepeted": func(problemID string, haveAccepeted []string) bool {
+			return CheckInStringArray(problemID, haveAccepeted)
+		},
+	}
 	Render = render.New(render.Options{
 		Directory: "templates",
 		Layout:    "layout",
-		// Funcs:     []template.FuncMap{funcMap},
+		Funcs:     []template.FuncMap{funcMap},
 	})
 	RedisPool = newRedisPool()
 	gob.Register(&model.User{})

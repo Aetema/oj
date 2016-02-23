@@ -67,3 +67,14 @@ body {
 {
   width: 30%;
 }
+
+/*use it in contest page add icon*/
+.addIconSize{
+  font-size: 25px;
+}
+
+/*use it in contest page start time*/
+.timeFont {
+  font-family: 'Jura', sans-serif;
+  color: CornflowerBlue;
+}
