@@ -8,7 +8,6 @@ import (
 	"gopkg.in/mgo.v2/bson"
 
 	"github.com/Miloas/oj/model"
-	"github.com/gorilla/context"
 )
 
 const problemsPageNum int = 1
@@ -91,6 +90,5 @@ func HandleHome(w http.ResponseWriter, r *http.Request) {
 	}
 	result := problemsPageStruct{p, p + 1, p - 1, canNext, canPrevious, pagination, problems, islogin, GetIsadmin(r), ok, val, acceptedProblems}
 	//defer store.Close()
-	context.Clear(r)
 	Render.HTML(w, http.StatusOK, "index", result)
 }

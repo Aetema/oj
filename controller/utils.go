@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"net/http"
+	"strings"
 
 	"github.com/Miloas/oj/model"
 	"github.com/garyburd/redigo/redis"
@@ -90,4 +91,9 @@ func CheckInStringArray(key string, stringArray []string) bool {
 		}
 	}
 	return false
+}
+
+//FormDatetime2Gotime : Format submit form datetime type to golang time: 2016-2-13T1:00 -> 2016-2-13 1:00:00
+func FormDatetime2Gotime(x string) string {
+	return strings.Join(strings.Split(x, "T"), " ") + ":00"
 }

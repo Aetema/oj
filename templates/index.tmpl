@@ -78,8 +78,8 @@
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <input type="submit" id="submitRemove" data-dismiss="modal" class="btn btn-danger" value="Remove Problem">
-                            <input type="submit" id="submitUpdate" data-dismiss="modal" class="btn btn-primary" value="Save Problem">
+                            <input type="submit" id="submitRemoveProblem" data-dismiss="modal" class="btn btn-danger" value="Remove Problem">
+                            <input type="submit" id="submitUpdateProblem" data-dismiss="modal" class="btn btn-primary" value="Save Problem">
                         </div>
                     </div>
                 </div>
@@ -140,7 +140,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <input type="submit" id="submitAdd" data-dismiss="modal" class="btn btn-primary" value="Save Problem">
+                <input type="submit" id="submitAddProblem" data-dismiss="modal" class="btn btn-primary" value="Save Problem">
             </div>
         </div>
     </div>
@@ -149,8 +149,8 @@
 
 
 <script>
-    $(document).ready(function () {
-    $("input#submitAdd").click(function () {
+  $(document).ready(function () {
+    $("input#submitAddProblem").click(function () {
         $.ajax({
             type: "POST",
             url: "/problem/add",
@@ -163,37 +163,33 @@
             }
         });
     });
-});
-
-$(document).ready(function () {
-$("input#submitUpdate").click(function () {
-    $.ajax({
-        type: "POST",
-        url: "/problem/update",
-        data: $('form#editproblemform').serialize(),
-        success: function (msg) {
-          window.location.href = "/"
-        },
-        error: function () {
-            //alert("failure");
-        }
+    $("input#submitUpdateProblem").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "/problem/update",
+            data: $('form#editproblemform').serialize(),
+            success: function (msg) {
+              window.location.href = "/"
+            },
+            error: function () {
+                //alert("failure");
+            }
+        });
+    });
+    $("input#submitRemoveProblem").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "/problem/remove",
+            data: $('form#editproblemform').serialize(),
+            success: function (msg) {
+              window.location.href = "/"
+            },
+            error: function () {
+                //alert("failure");
+            }
+        });
     });
 });
-});
 
-$(document).ready(function () {
-$("input#submitRemove").click(function () {
-    $.ajax({
-        type: "POST",
-        url: "/problem/remove",
-        data: $('form#editproblemform').serialize(),
-        success: function (msg) {
-          window.location.href = "/"
-        },
-        error: function () {
-            //alert("failure");
-        }
-    });
-});
-});
+
 </script>
