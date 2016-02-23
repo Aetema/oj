@@ -27,6 +27,7 @@ func Routes() *http.ServeMux {
 	mux.HandleFunc("/contest/problems", controller.HandleContestProblems)
 	mux.HandleFunc("/contest/status", controller.HandleContestStatus)
 	mux.HandleFunc("/contest/board", controller.HandleContestBoard)
+	mux.HandleFunc("/error", controller.HandleError)
 	//display problems list
 	mux.HandleFunc("/", controller.HandleHome)
 	//add static file server for include static files

@@ -17,23 +17,6 @@
             {{end}}
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <strong><a href="#" class="black"><del>A + B Problem</del></a></strong>&nbsp;&nbsp;<span class="label label-primary">dp</span>&nbsp;
-                <span class="label label-success">brute-force</span>
-                <br>
-                <small class="comment-phrase"> #1000 43%(100/1729)</small>
-            </li>
-            <li class="list-group-item">
-                <strong><a href="#" class="black">Load file</a></strong>&nbsp;&nbsp;<span class="label label-info">net-flow</span>&nbsp;
-                <span class="label label-warning">bit</span>
-                <br>
-                <small class="comment-phrase"> #1001 67%(13/40)</small>
-            </li>
-            <li class="list-group-item">
-                <strong><a href="#" class="black">Dr. time machine</a></strong>&nbsp;&nbsp;<span class="label label-danger">math</span>
-                <br>
-                <small class="comment-phrase"> #1002 13%(1/3)</small>
-            </li>
             {{range .Problems}}
             <li class="list-group-item">
                 <strong><a href="/problem?id={{.ID}}" class="black">{{if isAccepeted .ID $.HaveAccepted}}<del>{{.Title}}</del>{{else}}{{.Title}}{{end}}</a></strong>&nbsp;&nbsp;
@@ -55,11 +38,16 @@
                             <h4 class="modal-title" id="myModalLabel">Edit Problem</h4>
                         </div>
                         <div class="modal-body">
-                            <form id="editproblemform">
+                            <form id="editproblemform{{.ID}}">
                                 <label for="id" class="control-label">id:</label>
                                 <input type="text" name="id" class="form-control" readonly value="{{.ID}}">
                                 <label for="title" class="control-label">title:</label>
                                 <input type="text" name="title" class="form-control" value="{{.Title}}">
+                                <label for="display" class="control-label">Display (1: can, 0: not):</label>
+                                <select class="form-control" name="display">
+                                  <option {{if eq .Display 0}} selected="selected" {{end}}>0</option>
+                                  <option {{if eq .Display 1}} selected="selected" {{end}}>1</option>
+                                </select>
                                 <label for="time" class="control-label">time:</label>
                                 <input type="text" name="time" class="form-control" value="{{.Time}}">
                                 <label for="memory" class="control-label">memory:</label>
@@ -78,12 +66,42 @@
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <input type="submit" id="submitRemoveProblem" data-dismiss="modal" class="btn btn-danger" value="Remove Problem">
-                            <input type="submit" id="submitUpdateProblem" data-dismiss="modal" class="btn btn-primary" value="Save Problem">
+                            <input type="submit" id="submitRemoveProblem{{.ID}}" data-dismiss="modal" class="btn btn-danger" value="Remove Problem">
+                            <input type="submit" id="submitUpdateProblem{{.ID}}" data-dismiss="modal" class="btn btn-primary" value="Save Problem">
                         </div>
                     </div>
                 </div>
             </div>
+            <script>
+              $(document).ready(function () {
+                $("input#submitUpdateProblem{{.ID}}").click(function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/problem/update",
+                        data: $('form#editproblemform{{.ID}}').serialize(),
+                        success: function (msg) {
+                          window.location.href = "/"
+                        },
+                        error: function () {
+                            //alert("failure");
+                        }
+                    });
+                });
+                $("input#submitRemoveProblem{{.ID}}").click(function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/problem/remove",
+                        data: $('form#editproblemform{{.ID}}').serialize(),
+                        success: function (msg) {
+                          window.location.href = "/"
+                        },
+                        error: function () {
+                            //alert("failure");
+                        }
+                    });
+                });
+            });
+            </script>
             {{end}}
         </ul>
     </div>
@@ -156,33 +174,7 @@
             url: "/problem/add",
             data: $('form#addproblemform').serialize(),
             success: function (msg) {
-              window.location.href = "/"
-            },
-            error: function () {
-                //alert("failure");
-            }
-        });
-    });
-    $("input#submitUpdateProblem").click(function () {
-        $.ajax({
-            type: "POST",
-            url: "/problem/update",
-            data: $('form#editproblemform').serialize(),
-            success: function (msg) {
-              window.location.href = "/"
-            },
-            error: function () {
-                //alert("failure");
-            }
-        });
-    });
-    $("input#submitRemoveProblem").click(function () {
-        $.ajax({
-            type: "POST",
-            url: "/problem/remove",
-            data: $('form#editproblemform').serialize(),
-            success: function (msg) {
-              window.location.href = "/"
+              window.location.href = "/contest"
             },
             error: function () {
                 //alert("failure");
@@ -190,6 +182,4 @@
         });
     });
 });
-
-
 </script>

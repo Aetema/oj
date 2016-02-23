@@ -10,6 +10,7 @@ import (
 	"github.com/garyburd/redigo/redis"
 	"gopkg.in/boj/redistore.v1"
 	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
 
 func getMongoS() *mgo.Session {
@@ -96,4 +97,24 @@ func CheckInStringArray(key string, stringArray []string) bool {
 //FormDatetime2Gotime : Format submit form datetime type to golang time: 2016-2-13T1:00 -> 2016-2-13 1:00:00
 func FormDatetime2Gotime(x string) string {
 	return strings.Join(strings.Split(x, "T"), " ") + ":00"
+}
+
+//CheckAuth2Problem : check auth to /problem?id=:id and /problem/submit?id=:id , normal user only can touch display==1 problem , admin user can touch everything
+func CheckAuth2Problem(r *http.Request) bool {
+	id := r.URL.Query().Get("id")
+	session := getMongoS()
+	defer session.Close()
+	c := session.DB("oj").C("problems")
+	result := []model.Problem{}
+	err := c.Find(bson.M{"id": id}).All(&result)
+	if err != nil {
+		panic(err)
+	}
+	if len(result) > 0 && result[0].Display == 1 {
+		return true
+	}
+	if len(result) > 0 && GetIsadmin(r) {
+		return true
+	}
+	return false
 }

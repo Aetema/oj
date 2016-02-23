@@ -56,6 +56,7 @@ func HandleUpdateProblem(w http.ResponseWriter, r *http.Request) {
 		c := session.DB("oj").C("problems")
 		t, _ := strconv.Atoi(r.Form["time"][0])
 		m, _ := strconv.Atoi(r.Form["memory"][0])
+		display, _ := strconv.Atoi(r.Form["display"][0])
 		err := c.Update(bson.M{"id": r.Form["id"][0]},
 			bson.M{"$set": bson.M{
 				"title":          r.Form["title"][0],
@@ -66,7 +67,7 @@ func HandleUpdateProblem(w http.ResponseWriter, r *http.Request) {
 				"sampleoutput":   r.Form["sampleoutput"][0],
 				"standardinput":  r.Form["standardinput"][0],
 				"standardoutput": r.Form["standardoutput"][0],
-				"display":        0,
+				"display":        display,
 				"ac":             0,
 				"total":          0,
 				"acrate":         0,

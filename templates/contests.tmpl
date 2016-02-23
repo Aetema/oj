@@ -1,20 +1,15 @@
 <br>
 <div class="container">
-    <h2>Contest &nbsp;<a class="gray addIconSize" href="#" data-toggle="modal" data-target="#addContestModal"><i class="fa fa-plus"></i></a></h2>
+    <h2>Contest &nbsp;{{if .IsAdmin}}<a class="gray addIconSize" href="#" data-toggle="modal" data-target="#addContestModal"><i class="fa fa-plus"></i></a>{{end}}</h2>
 
     <br>
 
     <div class="list-group">
-      <a href="#" class="list-group-item">
-        <h4 class="list-group-item-heading">第一届西北大学程序设计竞赛 <div class="pull-right timeFont">2006-01-02 15:04:05</div></h4>
-        <div class="list-group-item-text">请参赛同学互相通知，提前注册比赛，过时不候.</div>
-      </a>
-      <a href="#" class="pull-right" data-toggle="modal" data-target="#editContestModal"><i class="fa fa-pencil"></i></a><br>
       {{range .Contests}}
       <a href="#" class="list-group-item">
         <h4 class="list-group-item-heading">{{.ContestName}} <div class="pull-right timeFont">{{.StartTime}}</div></h4>
         <div class="list-group-item-text">{{.ContestDescription}}</div>
-        <a href="#" class="pull-right" data-toggle="modal" data-target="#editContestModal{{.ContestID}}"><i class="fa fa-pencil"></i></a><br>
+        {{if $.IsAdmin}}<a href="#" class="pull-right" data-toggle="modal" data-target="#editContestModal{{.ContestID}}"><i class="fa fa-pencil"></i></a><br>{{end}}
       </a>
       <div id="editContestModal{{.ContestID}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
@@ -27,7 +22,7 @@
                       <h4 class="modal-title" id="myModalLabel">Add Contest</h4>
                   </div>
                   <div class="modal-body">
-                      <form id="editcontestform">
+                      <form id="editcontestform{{.ContestID}}">
                           <label for="contestID" class="control-label">Contest ID:</label>
                           <input type="text" name="contestID" readonly class="form-control" value="{{.ContestID}}">
                           <label for="contestName" class="control-label">Name:</label>
@@ -50,12 +45,47 @@
                   </div>
                   <div class="modal-footer">
                       <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-                      <input type="submit" id="submitRemoveContest" data-dismiss="modal" class="btn btn-danger" value="Remove Contest">
-                      <input type="submit" id="submitUpdateContest" data-dismiss="modal" class="btn btn-primary" value="Update Contest">
+                      <input type="submit" id="submitRemoveContest{{.ContestID}}" data-dismiss="modal" class="btn btn-danger" value="Remove Contest">
+                      <input type="submit" id="submitUpdateContest{{.ContestID}}" data-dismiss="modal" class="btn btn-primary" value="Update Contest">
                   </div>
               </div>
           </div>
       </div>
+      <script>
+          $(document).ready(function () {
+
+          $("input#submitUpdateContest{{.ContestID}}").click(function () {
+            // alert($('form#addcontestform input[name=contestStartTime]').val())
+            // alert($('form#addcontestform select[name=contestHowlong]').val())
+              $.ajax({
+                  type: "POST",
+                  url: "/contest/update",
+                  data: $('form#editcontestform{{.ContestID}}').serialize(),
+                  success: function (msg) {
+                    window.location.href = "/contests"
+                  },
+                  error: function () {
+                      //alert("failure");
+                  }
+              });
+          });
+          $("input#submitRemoveContest{{.ContestID}}").click(function () {
+            // alert($('form#addcontestform input[name=contestStartTime]').val())
+            // alert($('form#addcontestform select[name=contestHowlong]').val())
+              $.ajax({
+                  type: "POST",
+                  url: "/contest/remove",
+                  data: $('form#editcontestform{{.ContestID}}').serialize(),
+                  success: function (msg) {
+                    window.location.href = "/contests"
+                  },
+                  error: function () {
+                      //alert("failure");
+                  }
+              });
+          });
+      });
+      </script>
       {{end}}
     </div>
     <nav>
@@ -112,36 +142,6 @@
             type: "POST",
             url: "/contest/add",
             data: $('form#addcontestform').serialize(),
-            success: function (msg) {
-              window.location.href = "/contests"
-            },
-            error: function () {
-                //alert("failure");
-            }
-        });
-    });
-    $("input#submitUpdateContest").click(function () {
-      // alert($('form#addcontestform input[name=contestStartTime]').val())
-      // alert($('form#addcontestform select[name=contestHowlong]').val())
-        $.ajax({
-            type: "POST",
-            url: "/contest/update",
-            data: $('form#editcontestform').serialize(),
-            success: function (msg) {
-              window.location.href = "/contests"
-            },
-            error: function () {
-                //alert("failure");
-            }
-        });
-    });
-    $("input#submitRemoveContest").click(function () {
-      // alert($('form#addcontestform input[name=contestStartTime]').val())
-      // alert($('form#addcontestform select[name=contestHowlong]').val())
-        $.ajax({
-            type: "POST",
-            url: "/contest/remove",
-            data: $('form#editcontestform').serialize(),
             success: function (msg) {
               window.location.href = "/contests"
             },
