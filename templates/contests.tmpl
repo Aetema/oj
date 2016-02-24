@@ -6,7 +6,7 @@
 
     <div class="list-group">
       {{range .Contests}}
-      <a href="#" class="list-group-item">
+      <a href="/contest?cid={{.ContestID}}" class="list-group-item">
         <h4 class="list-group-item-heading">{{.ContestName}} <div class="pull-right timeFont">{{.StartTime}}</div></h4>
         <div class="list-group-item-text">{{.ContestDescription}}</div>
         {{if $.IsAdmin}}<a href="#" class="pull-right" data-toggle="modal" data-target="#editContestModal{{.ContestID}}"><i class="fa fa-pencil"></i></a><br>{{end}}

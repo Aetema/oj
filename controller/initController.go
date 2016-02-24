@@ -32,6 +32,10 @@ func init() {
 		"isAccepeted": func(problemID string, haveAccepeted []string) bool {
 			return CheckInStringArray(problemID, haveAccepeted)
 		},
+		"i2c": func(x int) string {
+			s := []string{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
+			return s[x]
+		},
 	}
 	Render = render.New(render.Options{
 		Directory: "templates",

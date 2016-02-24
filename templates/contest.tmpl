@@ -11,4 +11,20 @@
       <a class="nav-link" href="#">Board</a>
     </li>
   </ul>
+  <hr>
+  <div class="list-group">
+  {{range $i,$v := .Problems}}
+  <a href="/contest/problems?cid={{$.ContestID}}&&pid={{i2c $i}}" class="list-group-item">
+    <div class="row">
+      <div class="col-xs-1">
+        <h1 >{{i2c $i}}</h1>
+      </div>
+      <div col-xs-11>
+        <h4 class="list-group-item-heading markFont">{{$v.Title}}</h4>
+        <p class="list-group-item-text gray markFont"><small>{{$v.AcRate}}% ({{$v.Ac}}/{{$v.Total}})</small></p>
+      </div>
+    </div>
+  </a>
+  {{end}}
+</div>
 </div>

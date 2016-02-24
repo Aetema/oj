@@ -9,7 +9,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type result struct {
+type problemResult struct {
 	Problem model.Problem
 	Islogin bool
 }
@@ -29,5 +29,5 @@ func HandleProblem(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	Render.HTML(w, http.StatusOK, "problem", result{ret, GetIslogin(r)})
+	Render.HTML(w, http.StatusOK, "problem", problemResult{ret, GetIslogin(r)})
 }
