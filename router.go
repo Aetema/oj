@@ -19,14 +19,14 @@ func Routes() *http.ServeMux {
 	mux.HandleFunc("/signout", controller.HandleSignout)
 	mux.HandleFunc("/signin", controller.HandleSignin)
 	mux.HandleFunc("/contests", controller.HandleContests)
-	mux.HandleFunc("/contest", controller.HandleContest)
-	mux.HandleFunc("/contest/add", controller.HandleAddContest)       // need admin
-	mux.HandleFunc("/contest/remove", controller.HandleRemoveContest) // need admin
-	mux.HandleFunc("/contest/update", controller.HandleUpdateContest) // need admin
-	mux.HandleFunc("/contest/problems/submit", controller.HandleContestSubmit)
-	mux.HandleFunc("/contest/problems", controller.HandleContestProblems)
-	mux.HandleFunc("/contest/status", controller.HandleContestStatus)
-	mux.HandleFunc("/contest/board", controller.HandleContestBoard)
+	mux.HandleFunc("/contest/add", controller.HandleAddContest)                // need admin
+	mux.HandleFunc("/contest/remove", controller.HandleRemoveContest)          // need admin
+	mux.HandleFunc("/contest/update", controller.HandleUpdateContest)          // need admin
+	mux.HandleFunc("/contest", controller.HandleContest)                       //during time or admin
+	mux.HandleFunc("/contest/problems/submit", controller.HandleContestSubmit) //during time or admin
+	mux.HandleFunc("/contest/problems", controller.HandleContestProblems)      //during time or admin
+	mux.HandleFunc("/contest/status", controller.HandleContestStatus)          //during time or admin
+	mux.HandleFunc("/contest/board", controller.HandleContestBoard)            //during time or admin
 	mux.HandleFunc("/error", controller.HandleError)
 	//display problems list
 	mux.HandleFunc("/", controller.HandleHome)

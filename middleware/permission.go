@@ -23,6 +23,14 @@ func Permission(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 			return
 			// http.Error(w, "Not Authorized", 401)
 		}
+		if strings.HasPrefix(u.Path, "/contest") && !strings.HasPrefix(u.Path, "/contests") {
+			if controller.CheckAuth2Contest(r) {
+				next(w, r)
+				return
+			}
+			http.Redirect(w, r, "/error", 401)
+			return
+		}
 		next(w, r)
 	} else {
 		if controller.GetIsadmin(r) {

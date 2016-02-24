@@ -3,8 +3,10 @@ package controller
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"fmt"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/Miloas/oj/model"
 	"github.com/garyburd/redigo/redis"
@@ -117,4 +119,43 @@ func CheckAuth2Problem(r *http.Request) bool {
 		return true
 	}
 	return false
+}
+
+//CheckAuth2Contest : check auth to /contest /contest/problems /contest/problems/submit /contest/board /contest/status, only admin and joined user (during contest) can touch
+func CheckAuth2Contest(r *http.Request) bool {
+	cid := r.URL.Query().Get("cid")
+	if cid == "" {
+		return false
+	}
+	if GetIsadmin(r) {
+		return true
+	}
+	if !GetIslogin(r) {
+		return false
+	}
+	user := GetLoginUser(r)
+	if user.JoinedContest != cid {
+		return false
+	}
+	session := getMongoS()
+	defer session.Close()
+	contestCol := session.DB("oj").C("contests")
+	contest := []model.Contest{}
+	contestCol.Find(bson.M{"contestid": cid}).All(&contest)
+	if len(contest) <= 0 {
+		return false
+	}
+	//2016-2-24 10:25:00
+	contestStartTime, _ := time.Parse("2006-01-02 15:04:05", contest[0].StartTime)
+	contestHowlong := contest[0].HowLong
+	contestEndTime := contestStartTime
+	for i := 0; i < contestHowlong; i++ {
+		contestEndTime = contestEndTime.Add(time.Hour)
+	}
+	currentTime, _ := time.Parse("2006-01-02 15:04:05", time.Now().Format("2006-01-02 15:04:05"))
+	fmt.Println(contestStartTime, contestEndTime, currentTime)
+	if currentTime.After(contestEndTime) || currentTime.Before(contestStartTime) {
+		return false
+	}
+	return true
 }
