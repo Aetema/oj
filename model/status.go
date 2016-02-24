@@ -9,4 +9,5 @@ type Status struct {
 	Memory     string
 	Result     string
 	Lang       string
+	ContestID  string
 }

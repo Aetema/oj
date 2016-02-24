@@ -1,0 +1,48 @@
+<br>
+<div class="container">
+  <ul class="nav nav-inline">
+    <li class="nav-item">
+      <a class="nav-link" href="/contest?cid={{.ContestID}}">Problems</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/contest/status?cid={{.ContestID}}">Status</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/contest/board?cid={{.ContestID}}">Board</a>
+    </li>
+  </ul>
+  <hr>
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>User</th>
+        <th>Problem</th>
+        <th>Result</th>
+        <th>Memory</th>
+        <th>Time</th>
+        <th>Lang</th>
+        <th>Submit Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Status}}
+      <tr>
+        <th scope="row">{{.User}}</th>
+        <td>{{.ID}}</td>
+        <td class="{{if eq .Result "ACCEPTED"}}green{{end}}">{{.Result}}</td>
+        <td>{{.Memory}}</td>
+        <td>{{.Time}}</td>
+        <td>{{.Lang}}</td>
+        <td>{{.SubmitTime}}</td>
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+  <nav>
+    <ul class="pager">
+      <li class="pager-prev {{if not .CanPrevious}}disabled{{end}}"><a href="/status?page={{.PreviousPage}}">Previous</a></li>
+      <li class="pager-next {{if not .CanNext}}disabled{{end}}"><a href="/status?page={{.NextPage}}">Next</a></li>
+    </ul>
+  </nav>
+</div>
+</div>

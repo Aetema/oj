@@ -9,8 +9,10 @@ import (
 )
 
 type contestProblemResult struct {
-	Problem model.Problem
-	Islogin bool
+	Problem          model.Problem
+	ContestID        string
+	ContestProblemID string
+	Islogin          bool
 }
 
 //HandleContestProblems : handle contest list problems page, (/contest/problems?cid=:cid&&pid=:pid)
@@ -18,6 +20,7 @@ func HandleContestProblems(w http.ResponseWriter, r *http.Request) {
 	cid := r.URL.Query().Get("cid")
 	pid := r.URL.Query().Get("pid")
 	session := getMongoS()
+	defer session.Close()
 	contestCol := session.DB("oj").C("contests")
 	problemCol := session.DB("oj").C("problems")
 	contest := []model.Contest{}
@@ -28,7 +31,7 @@ func HandleContestProblems(w http.ResponseWriter, r *http.Request) {
 		if v, ok := a2i[pid]; ok {
 			problemCol.Find(bson.M{"id": contest[0].ContestProblems[v]}).All(&problem)
 			if len(problem) > 0 {
-				Render.HTML(w, http.StatusFound, "contestProblem", contestProblemResult{problem[0], GetIslogin(r)})
+				Render.HTML(w, http.StatusFound, "contestProblem", contestProblemResult{problem[0], cid, pid, GetIslogin(r)})
 			} else {
 				http.Redirect(w, r, "/error", 401)
 			}

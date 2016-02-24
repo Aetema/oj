@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"gopkg.in/mgo.v2/bson"
+
 	"github.com/Miloas/oj/model"
 )
 
@@ -28,10 +30,11 @@ func HandleStatus(w http.ResponseWriter, r *http.Request) {
 	session := getMongoS()
 	defer session.Close()
 	c := session.DB("oj").C("status")
-	count, err := c.Count()
+	//normal submit status , not contest
+	count, err := c.Find(bson.M{"contestid": ""}).Count()
 	totalPage := (count + statusPageNum - 1) / statusPageNum
 	status := []model.Status{}
-	err = c.Find(nil).Sort("-submittime").Limit(statusPageNum).Skip(statusPageNum * p).All(&status)
+	err = c.Find(bson.M{"contestid": ""}).Sort("-submittime").Limit(statusPageNum).Skip(statusPageNum * p).All(&status)
 	if err != nil {
 		panic(err)
 	}
