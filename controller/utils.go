@@ -3,7 +3,6 @@ package controller
 import (
 	"crypto/md5"
 	"encoding/hex"
-	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -152,8 +151,9 @@ func CheckAuth2Contest(r *http.Request) bool {
 	for i := 0; i < contestHowlong; i++ {
 		contestEndTime = contestEndTime.Add(time.Hour)
 	}
+	//holy fvck ,,,
 	currentTime, _ := time.Parse("2006-01-02 15:04:05", time.Now().Format("2006-01-02 15:04:05"))
-	fmt.Println(contestStartTime, contestEndTime, currentTime)
+	// fmt.Println(contestStartTime, contestEndTime, currentTime)
 	if currentTime.After(contestEndTime) || currentTime.Before(contestStartTime) {
 		return false
 	}

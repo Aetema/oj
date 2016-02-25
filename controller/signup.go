@@ -30,7 +30,7 @@ func HandleSignup(w http.ResponseWriter, r *http.Request) {
 				if len(r.Form["createUsername"][0]) >= 6 && len(r.Form["createUsername"][0]) <= 12 && len(r.Form["createPassword"][0]) >= 7 && len(r.Form["createPassword"][0]) <= 12 {
 					cryptoedPassword := cryptoPassword(r.Form["createPassword"][0])
 					// fmt.Println(cryptoedPassword)
-					user := model.User{r.Form["createUsername"][0], cryptoedPassword, "normal", []string{}, ""}
+					user := model.User{r.Form["createUsername"][0], cryptoedPassword, "normal", []string{}, "", 0, 0, []string{}, []int{}, []int{}}
 					c.Insert(&user)
 					store, err := redistore.NewRediStore(10, "tcp", ":6379", "", []byte("secret-key"))
 					if err != nil {

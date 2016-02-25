@@ -36,6 +36,12 @@ func init() {
 			s := []string{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
 			return s[x]
 		},
+		"inc": func(x int) int {
+			return x + 1
+		},
+		"getx": func(s []int, x int) int {
+			return s[x]
+		},
 	}
 	Render = render.New(render.Options{
 		Directory: "templates",
