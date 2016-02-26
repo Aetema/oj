@@ -18,6 +18,7 @@
         </div>
         <ul class="list-group list-group-flush">
             {{range .Problems}}
+              {{if canDisplay .Display $.Isadmin }}
             <li class="list-group-item">
                 <strong><a href="/problem?id={{.ID}}" class="black">{{if isAccepeted .ID $.HaveAccepted}}<del>{{.Title}}</del>{{else}}{{.Title}}{{end}}</a></strong>&nbsp;&nbsp;
                 {{if $.Isadmin}}
@@ -27,6 +28,7 @@
                 <br>
                 <small class="comment-phrase"> #{{.ID}} {{.AcRate}}%({{.Ac}}/{{.Total}})</small>
             </li>
+            {{end}}
             <div id="editModal{{.ID}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">

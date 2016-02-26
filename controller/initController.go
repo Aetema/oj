@@ -42,6 +42,16 @@ func init() {
 		"getx": func(s []int, x int) int {
 			return s[x]
 		},
+		//display: Problem.Display and Isadmin as parameters here
+		"canDisplay": func(display int, isadmin bool) bool {
+			if isadmin {
+				return true
+			}
+			if display == 1 {
+				return true
+			}
+			return false
+		},
 	}
 	Render = render.New(render.Options{
 		Directory: "templates",
