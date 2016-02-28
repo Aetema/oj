@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 	"strconv"
+	"strings"
 
 	"gopkg.in/boj/redistore.v1"
 	"gopkg.in/mgo.v2/bson"
@@ -25,6 +26,7 @@ type problemsPageStruct struct {
 
 	//index info content
 	HaveInfo bool
+	GoodInfo bool
 	Info     string
 
 	//store accepted problem id(string array),if not login is empty array
@@ -79,6 +81,10 @@ func HandleHome(w http.ResponseWriter, r *http.Request) {
 		//password error info or login successful
 		val = loginInfo.(string)
 	}
+	goodinfo := false
+	if strings.Index(val, "success") != -1 {
+		goodinfo = true
+	}
 	islogin := GetIslogin(r)
 	acceptedProblems := []string{}
 	if islogin {
@@ -88,7 +94,7 @@ func HandleHome(w http.ResponseWriter, r *http.Request) {
 		c.Find(bson.M{"username": loginUser.Username}).All(&result)
 		acceptedProblems = result[0].Accepted
 	}
-	result := problemsPageStruct{p, p + 1, p - 1, canNext, canPrevious, pagination, problems, islogin, GetIsadmin(r), ok, val, acceptedProblems}
+	result := problemsPageStruct{p, p + 1, p - 1, canNext, canPrevious, pagination, problems, islogin, GetIsadmin(r), ok, goodinfo, val, acceptedProblems}
 	//defer store.Close()
 	Render.HTML(w, http.StatusOK, "index", result)
 }

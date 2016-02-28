@@ -11,6 +11,7 @@
         <div class="list-group-item-text">{{.ContestDescription}}</div>
         {{if $.IsAdmin}}<a href="#" class="pull-right" data-toggle="modal" data-target="#editContestModal{{.ContestID}}"><i class="fa fa-pencil"></i></a><br>{{end}}
       </a>
+      {{if $.Isadmin}}
       <div id="editContestModal{{.ContestID}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -62,7 +63,7 @@
                   url: "/contest/update",
                   data: $('form#editcontestform{{.ContestID}}').serialize(),
                   success: function (msg) {
-                    window.location.href = "/contests"
+                    window.location.assign("/contests")
                   },
                   error: function () {
                       //alert("failure");
@@ -77,7 +78,7 @@
                   url: "/contest/remove",
                   data: $('form#editcontestform{{.ContestID}}').serialize(),
                   success: function (msg) {
-                    window.location.href = "/contests"
+                    window.location.assign("/contests")
                   },
                   error: function () {
                       //alert("failure");
@@ -86,6 +87,7 @@
           });
       });
       </script>
+      {{end}}
       {{end}}
     </div>
     <nav>
@@ -143,7 +145,7 @@
             url: "/contest/add",
             data: $('form#addcontestform').serialize(),
             success: function (msg) {
-              window.location.href = "/contests"
+              window.location.assign("/contests")
             },
             error: function () {
                 //alert("failure");

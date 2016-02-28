@@ -50,7 +50,6 @@ func HandleSignup(w http.ResponseWriter, r *http.Request) {
 				accountSession, _ := store.Get(r, "info")
 				accountSession.Values["loginInfo"] = "这个账户已经被注册过了."
 				accountSession.Save(r, w)
-				http.Redirect(w, r, "/", http.StatusFound)
 			}
 		}
 	}

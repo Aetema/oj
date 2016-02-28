@@ -132,7 +132,8 @@
             url: "/signup",
             data: $('form#createaccountform').serialize(),
             success: function (msg) {
-              window.location.href = "/"
+              // window.location.href = "/"
+              window.location.assign("/")
             },
             error: function () {
                 //alert("failure");

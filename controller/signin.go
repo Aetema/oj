@@ -30,6 +30,10 @@ func HandleSignin(w http.ResponseWriter, r *http.Request) {
 			accountSession, _ := store.Get(r, "user")
 			accountSession.Values["currentuser"] = &result[0]
 			accountSession.Save(r, w)
+
+			accountInfoSession, _ := store.Get(r, "info")
+			accountInfoSession.Values["loginInfo"] = "login successful."
+			accountInfoSession.Save(r, w)
 		}
 		http.Redirect(w, r, "/", http.StatusFound)
 	}
