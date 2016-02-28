@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/Miloas/oj/model"
 
@@ -24,7 +25,7 @@ func HandleAddProblem(w http.ResponseWriter, r *http.Request) {
 		m, _ := strconv.Atoi(r.Form["memory"][0])
 		newProblem := &model.Problem{strconv.Itoa(count + 1000), r.Form["title"][0], t,
 			m, r.Form["description"][0], r.Form["sampleinput"][0],
-			r.Form["sampleoutput"][0], r.Form["standardinput"][0], r.Form["standardoutput"][0],
+			r.Form["sampleoutput"][0], strings.Replace(r.Form["standardinput"][0], "\r\n", "\n", -1), strings.Replace(r.Form["standardoutput"][0], "\r\n", "\n", -1),
 			0, 0, 0, 0}
 		err = c.Insert(newProblem)
 		if err != nil {
@@ -65,12 +66,9 @@ func HandleUpdateProblem(w http.ResponseWriter, r *http.Request) {
 				"description":    r.Form["description"][0],
 				"sampleinput":    r.Form["sampleinput"][0],
 				"sampleoutput":   r.Form["sampleoutput"][0],
-				"standardinput":  r.Form["standardinput"][0],
-				"standardoutput": r.Form["standardoutput"][0],
+				"standardinput":  strings.Replace(r.Form["standardinput"][0], "\r\n", "\n", -1),
+				"standardoutput": strings.Replace(r.Form["standardoutput"][0], "\r\n", "\n", -1),
 				"display":        display,
-				"ac":             0,
-				"total":          0,
-				"acrate":         0,
 			}})
 		if err != nil {
 			panic(err)
