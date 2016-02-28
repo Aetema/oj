@@ -2,6 +2,7 @@ package model
 
 //Status :status model
 type Status struct {
+	Sid        int
 	User       string
 	ID         string
 	SubmitTime string

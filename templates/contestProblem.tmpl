@@ -27,11 +27,18 @@
     <hr>
     <pre>{{.SampleOutput}}</pre>
     {{if $.Islogin}}
-    <h6>Code</h6>
     <form method="post" action="/contest/problems/submit?cid={{$.ContestID}}&&pid={{$.ContestProblemID}}">
-        <textarea class="form-control" name="submitedCode" rows="3">Paste code here.</textarea>
-        <br>
-        <input type="submit" class="btn btn-default" value="Submit">
+      <h6>Code &nbsp;
+      <select class="c-select" name="lang">
+        <option selected>C++</option>
+        <option>C</option>
+        <option>Java</option>
+        <option>Python</option>
+      </select>
+      </h6>
+      <textarea class="form-control" name="submitedCode" rows="3">Paste code here.</textarea>
+      <br>
+      <input type="submit" class="btn btn-default" value="Submit">
     </form>
     {{end}}
     <br>

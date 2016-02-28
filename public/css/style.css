@@ -41,7 +41,7 @@ body {
 /* Card small font css */
 .comment-phrase {
   color: gray;
-  font-size: 1%;
+  /*font-size: 1%;*/
 }
 
 /* Color class */
@@ -56,6 +56,18 @@ body {
 }
 .red {
   color:red;
+}
+.orange {
+  color:orange;
+}
+.blue {
+  color:deepskyblue;
+}
+.lightblue {
+  color: lightskyblue;
+}
+.yellow {
+  color:yellow;
 }
 
 /*style dropdown width*/

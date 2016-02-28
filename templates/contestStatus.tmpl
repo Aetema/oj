@@ -29,9 +29,9 @@
       <tr>
         <th scope="row">{{.User}}</th>
         <td>{{.ID}}</td>
-        <td class="{{if eq .Result "ACCEPTED"}}green{{end}}">{{.Result}}</td>
-        <td>{{.Memory}}</td>
-        <td>{{.Time}}</td>
+        <td class="{{if eq .Result "ACCEPTED"}}green{{end}}{{if eq .Result "WRONG_ANSWER"}}red{{end}}{{if eq .Result "COMPILE_ERROR"}}orange{{end}}{{if eq .Result "TIME_LIMIT_EXCEEDED"}}blue{{end}}{{if eq .Result "MEMORY_LIMIT_EXCEEDED"}}yellow{{end}}{{if eq .Result "RUNTIME_ERROR"}}lightblue{{end}}">{{.Result}}</td>
+        <td>-</td>
+        <td>-</td>
         <td>{{.Lang}}</td>
         <td>{{.SubmitTime}}</td>
       </tr>
