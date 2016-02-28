@@ -14,7 +14,7 @@ func Permission(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	//restrict crud problems and contest (only admin)
 	if !strings.HasPrefix(u.Path, "/problem/add") && !strings.HasPrefix(u.Path, "/problem/remove") && !strings.HasPrefix(u.Path, "/problem/update") &&
 		!strings.HasPrefix(u.Path, "/contest/add") && !strings.HasPrefix(u.Path, "/contest/remove") && !strings.HasPrefix(u.Path, "/contest/update") {
-		if strings.HasPrefix(u.Path, "/problem") || strings.HasPrefix(u.Path, "/problem/submit") {
+		if strings.HasPrefix(u.Path, "/problem") && !strings.HasPrefix(u.Path, "/problems") || strings.HasPrefix(u.Path, "/problem/submit") {
 			if controller.CheckAuth2Problem(r) {
 				next(w, r)
 				return

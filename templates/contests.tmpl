@@ -11,7 +11,7 @@
         <div class="list-group-item-text">{{.ContestDescription}}</div>
         {{if $.IsAdmin}}<a href="#" class="pull-right" data-toggle="modal" data-target="#editContestModal{{.ContestID}}"><i class="fa fa-pencil"></i></a><br>{{end}}
       </a>
-      {{if $.Isadmin}}
+      {{if $.IsAdmin}}
       <div id="editContestModal{{.ContestID}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
               <div class="modal-content">
