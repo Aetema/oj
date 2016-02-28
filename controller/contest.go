@@ -9,6 +9,7 @@ import (
 )
 
 type contestResult struct {
+	User      model.User
 	Problems  []model.Problem
 	ContestID string
 	Islogin   bool
@@ -21,7 +22,10 @@ func HandleContest(w http.ResponseWriter, r *http.Request) {
 	session := getMongoS()
 	defer session.Close()
 	c := session.DB("oj").C("contests")
+	userCol := session.DB("oj").C("user")
+	user := model.User{}
 	contests := []model.Contest{}
+	userCol.Find(bson.M{"username": GetLoginUser(r).Username}).One(&user)
 	c.Find(bson.M{"contestid": cid}).All(&contests)
 	if len(contests) > 0 {
 		problemIDs := contests[0].ContestProblems
@@ -34,7 +38,7 @@ func HandleContest(w http.ResponseWriter, r *http.Request) {
 				problems = append(problems, problemsRet[0])
 			}
 		}
-		Render.HTML(w, http.StatusOK, "contest", contestResult{problems, cid, GetIslogin(r)})
+		Render.HTML(w, http.StatusOK, "contest", contestResult{user, problems, cid, GetIslogin(r)})
 	} else {
 		http.Redirect(w, r, "/contests", http.StatusNotFound)
 	}

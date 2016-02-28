@@ -20,7 +20,7 @@
         <h1 >{{i2c $i}}</h1>
       </div>
       <div col-xs-11>
-        <h4 class="list-group-item-heading markFont">{{$v.Title}}</h4>
+        <h4 class="list-group-item-heading markFont">{{if isAccepeted (i2c $i) $.User.ContestAcedProblems}}<del>{{end}}{{$v.Title}}{{if isAccepeted (i2c $i) $.User.ContestAcedProblems}}</del>{{end}}</h4>
         <p class="list-group-item-text gray markFont"><small>{{$v.AcRate}}% ({{$v.Ac}}/{{$v.Total}})</small></p>
       </div>
     </div>

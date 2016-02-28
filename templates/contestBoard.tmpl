@@ -33,7 +33,7 @@
         <td>{{$v.ContestTotalAced}}</td>
         <td>{{$v.ContestTotalTime}}</td>
         {{range $j,$u:= .ContestWrongTimes}}
-          <td {{if isAccepeted (i2c $j) $v.ContestAcedProblems}}bgcolor="LightGreen"{{else}}bgcolor="Tomato"{{end}}>{{if isAccepeted (i2c $j) $v.ContestAcedProblems}}{{getx $v.ContestAcedTime $j}}{{else}}-{{end}}/{{$u}}</td>
+          <td {{if isAccepeted (i2c $j) $v.ContestAcedProblems}}bgcolor="LightGreen"{{else}} {{if haveWrong $u}}bgcolor="Tomato"{{end}}{{end}}>{{if isAccepeted (i2c $j) $v.ContestAcedProblems}}{{getx $v.ContestAcedTime $j}}{{else}}-{{end}}/{{$u}}</td>
         {{end}}
       </tr>
       {{end}}

@@ -15,7 +15,7 @@ type contestProblemResult struct {
 	Islogin          bool
 }
 
-//HandleContestProblems : handle contest list problems page, (/contest/problems?cid=:cid&&pid=:pid)
+//HandleContestProblems : handle contest problem page, (/contest/problems?cid=:cid&&pid=:pid)
 func HandleContestProblems(w http.ResponseWriter, r *http.Request) {
 	cid := r.URL.Query().Get("cid")
 	pid := r.URL.Query().Get("pid")
