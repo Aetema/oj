@@ -32,7 +32,11 @@ func HandleSubmitCode(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			panic(err)
 		}
-		statusCol.Insert(&model.Status{count, user.Username, r.URL.Query().Get("id"), "-", "-", "-", "Queue", r.Form["lang"][0], ""})
+		display := true
+		if GetIsadmin(r) {
+			display = false
+		}
+		statusCol.Insert(&model.Status{count, user.Username, r.URL.Query().Get("id"), "-", "-", "-", "Queue", r.Form["lang"][0], "", display})
 		//c.Do("LPUSH", "judgeQueue", r.Form["submitedCode"][0])
 		sendData, _ := json.Marshal(&judgeQueueNode{
 			Sid:       count,

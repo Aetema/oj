@@ -11,4 +11,6 @@ type Status struct {
 	Result     string
 	Lang       string
 	ContestID  string
+
+	Display bool
 }

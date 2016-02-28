@@ -26,6 +26,7 @@
     </thead>
     <tbody>
       {{range .Status}}
+      {{if myor $.Isadmin .Display}}
       <tr>
         <th scope="row">{{.User}}</th>
         <td>{{.ID}}</td>
@@ -35,6 +36,7 @@
         <td>{{.Lang}}</td>
         <td>{{.SubmitTime}}</td>
       </tr>
+      {{end}}
       {{end}}
     </tbody>
   </table>

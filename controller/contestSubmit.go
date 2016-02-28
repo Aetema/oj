@@ -24,7 +24,11 @@ func HandleContestSubmit(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			panic(err)
 		}
-		statusCol.Insert(&model.Status{count, user.Username, pid, "-", "-", "-", "Queue", r.Form["lang"][0], cid})
+		display := true
+		if GetIsadmin(r) {
+			display = false
+		}
+		statusCol.Insert(&model.Status{count, user.Username, pid, "-", "-", "-", "Queue", r.Form["lang"][0], cid, display})
 		//c.Do("LPUSH", "judgeQueue", r.Form["submitedCode"][0])
 		sendData, _ := json.Marshal(&judgeQueueNode{
 			Sid:       count,

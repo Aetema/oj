@@ -18,6 +18,7 @@ type contestStatusPageStruct struct {
 	CanPrevious  bool
 	Status       []model.Status
 	Islogin      bool
+	Isadmin      bool
 }
 
 //HandleContestStatus : handle contest status page
@@ -45,7 +46,7 @@ func HandleContestStatus(w http.ResponseWriter, r *http.Request) {
 	if p-1 >= 0 {
 		canPrevious = true
 	}
-	result := contestStatusPageStruct{cid, p, p + 1, p - 1, canNext, canPrevious, status, GetIslogin(r)}
+	result := contestStatusPageStruct{cid, p, p + 1, p - 1, canNext, canPrevious, status, GetIslogin(r), GetIsadmin(r)}
 	Render.HTML(w, http.StatusOK, "contestStatus", result)
 
 }

@@ -55,6 +55,9 @@ func init() {
 			}
 			return false
 		},
+		"myor": func(a bool, b bool) bool {
+			return a || b
+		},
 	}
 	Render = render.New(render.Options{
 		Directory: "templates",
