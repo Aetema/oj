@@ -40,8 +40,8 @@
   </table>
   <nav>
     <ul class="pager">
-      <li class="pager-prev {{if not .CanPrevious}}disabled{{end}}"><a href="/status?page={{.PreviousPage}}">Previous</a></li>
-      <li class="pager-next {{if not .CanNext}}disabled{{end}}"><a href="/status?page={{.NextPage}}">Next</a></li>
+      <li class="pager-prev {{if not .CanPrevious}}disabled{{end}}"><a href="{{if .CanPrevious}}/status?page={{.PreviousPage}}{{end}}">Previous</a></li>
+      <li class="pager-next {{if not .CanNext}}disabled{{end}}"><a href="{{if .CanNext}}/status?page={{.NextPage}}{{end}}">Next</a></li>
     </ul>
   </nav>
 </div>

@@ -41,6 +41,16 @@ func HandleSignup(w http.ResponseWriter, r *http.Request) {
 					accountSession.Values["currentuser"] = &user
 					accountSession.Save(r, w)
 				}
+			} else {
+				store, err := redistore.NewRediStore(10, "tcp", ":6379", "", []byte("secret-key"))
+				if err != nil {
+					panic(err)
+				}
+				defer store.Close()
+				accountSession, _ := store.Get(r, "info")
+				accountSession.Values["loginInfo"] = "这个账户已经被注册过了."
+				accountSession.Save(r, w)
+				http.Redirect(w, r, "/", http.StatusFound)
 			}
 		}
 	}
