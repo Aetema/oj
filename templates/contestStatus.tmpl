@@ -42,8 +42,8 @@
   </table>
   <nav>
     <ul class="pager">
-      <li class="pager-prev {{if not .CanPrevious}}disabled{{end}}"><a href="{{if .CanPrevious}}/status?page={{.PreviousPage}}{{end}}">Previous</a></li>
-      <li class="pager-next {{if not .CanNext}}disabled{{end}}"><a href="{{if .CanNext}}/status?page={{.NextPage}}{{end}}">Next</a></li>
+      <li class="pager-prev {{if not .CanPrevious}}disabled{{end}}"><a href="{{if .CanPrevious}}/contest/status?page={{.PreviousPage}}&&cid={{.ContestID}}{{end}}">Previous</a></li>
+      <li class="pager-next {{if not .CanNext}}disabled{{end}}"><a href="{{if .CanNext}}/contest/status?page={{.NextPage}}&&cid={{.ContestID}}{{end}}">Next</a></li>
     </ul>
   </nav>
 </div>
