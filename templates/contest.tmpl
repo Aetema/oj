@@ -14,7 +14,7 @@
   <hr>
   <div class="list-group">
   {{range $i,$v := .Problems}}
-  <a href="/contest/problems?cid={{$.ContestID}}&&pid={{i2c $i}}" class="list-group-item">
+  <a href="/contest/problems?cid={{$.ContestID}}&pid={{i2c $i}}" class="list-group-item">
     <div class="row">
       <div class="col-xs-1">
         <h1 >{{i2c $i}}</h1>
