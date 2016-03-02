@@ -1,19 +1,100 @@
 package controller
 
 import (
-	"html/template"
 	"net/http"
-	"path"
+	"strconv"
+	"strings"
+
+	"gopkg.in/boj/redistore.v1"
+	"gopkg.in/mgo.v2/bson"
+
+	"github.com/Miloas/oj/model"
 )
 
-func HandlHome(w http.ResponseWriter, req *http.Request) {
-	fp := path.Join("templates", "index.html")
-	tmpl, err := template.ParseFiles(fp)
+const problemsPageNum int = 20
+
+type problemsPageStruct struct {
+	CurrentPage  int
+	NextPage     int
+	PreviousPage int
+	CanNext      bool
+	CanPrevious  bool
+	Pagination   []int
+	Problems     []model.Problem
+	Islogin      bool
+	Isadmin      bool
+
+	//index info content
+	HaveInfo bool
+	GoodInfo bool
+	Info     string
+
+	//store accepted problem id(string array),if not login is empty array
+	HaveAccepted []string
+}
+
+//HandleHome :handle "/"
+func HandleHome(w http.ResponseWriter, r *http.Request) {
+	//假设page是整数,回头改这
+	p := 0
+	if tmp := r.URL.Query().Get("page"); tmp != "" {
+		p, _ = strconv.Atoi(tmp)
+	}
+	session := getMongoS()
+	defer session.Close()
+	c := session.DB("oj").C("problems")
+	count, err := c.Count()
+	totalPage := (count + problemsPageNum - 1) / problemsPageNum
+	problems := []model.Problem{}
+	err = c.Find(nil).Limit(problemsPageNum).Skip(problemsPageNum * p).All(&problems)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		panic(err)
 	}
-	if err := tmpl.Execute(w, nil); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	pagination := []int{}
+	for i := 0; i < totalPage; i++ {
+		pagination = append(pagination, i)
 	}
+	canNext, canPrevious := false, false
+	if p+1 < totalPage {
+		canNext = true
+	}
+	if p-1 >= 0 {
+		canPrevious = true
+	}
+	store, err := redistore.NewRediStore(10, "tcp", ":6379", "", []byte("secret-key"))
+	if err != nil {
+		panic(err)
+	}
+	defer store.Close()
+	// Get a session.
+	accountSession, _ := store.Get(r, "info")
+	// Add a value.
+	loginInfo := accountSession.Values["loginInfo"]
+	// Save.
+	accountSession.Options.MaxAge = -1
+	accountSession.Save(r, w)
+	ok := true
+	val := ""
+	if loginInfo == nil {
+		ok = false
+	} else {
+		//password error info or login successful
+		val = loginInfo.(string)
+	}
+	goodinfo := false
+	if strings.Index(val, "success") != -1 {
+		goodinfo = true
+	}
+	islogin := GetIslogin(r)
+	acceptedProblems := []string{}
+	if islogin {
+		loginUser := GetLoginUser(r)
+		c := session.DB("oj").C("user")
+		result := []model.User{}
+		c.Find(bson.M{"username": loginUser.Username}).All(&result)
+		acceptedProblems = result[0].Accepted
+	}
+	result := problemsPageStruct{p, p + 1, p - 1, canNext, canPrevious, pagination, problems, islogin, GetIsadmin(r), ok, goodinfo, val, acceptedProblems}
+	//defer store.Close()
+	Render.HTML(w, http.StatusOK, "index", result)
 }

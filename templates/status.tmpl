@@ -1,0 +1,37 @@
+<br>
+<div class="container">
+<table class="table">
+  <thead class="thead-inverse">
+    <tr>
+      <th>User</th>
+      <th>Problem</th>
+      <th>Result</th>
+      <th>Memory</th>
+      <th>Time</th>
+      <th>Lang</th>
+      <th>Submit Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{range .Status}}
+    {{if myor $.Isadmin .Display}}
+    <tr>
+      <th scope="row">{{.User}}</th>
+      <td>{{.ID}}</td>
+      <td class="{{if eq .Result "ACCEPTED"}}green{{end}}{{if eq .Result "WRONG_ANSWER"}}red{{end}}{{if eq .Result "COMPILE_ERROR"}}orange{{end}}{{if eq .Result "TIME_LIMIT_EXCEEDED"}}blue{{end}}{{if eq .Result "MEMORY_LIMIT_EXCEEDED"}}yellow{{end}}{{if eq .Result "RUNTIME_ERROR"}}lightblue{{end}}">{{.Result}}</td>
+      <td>{{.Memory}}</td>
+      <td>{{.Time}}</td>
+      <td>{{.Lang}}</td>
+      <td>{{.SubmitTime}}</td>
+    </tr>
+    {{end}}
+    {{end}}
+  </tbody>
+</table>
+<nav>
+  <ul class="pager">
+    <li class="pager-prev {{if not .CanPrevious}}disabled{{end}}"><a href="{{if .CanPrevious}}/status?page={{.PreviousPage}}{{end}}">Previous</a></li>
+    <li class="pager-next {{if not .CanNext}}disabled{{end}}"><a href="{{if .CanNext}}/status?page={{.NextPage}}{{end}}">Next</a></li>
+  </ul>
+</nav>
+</div>

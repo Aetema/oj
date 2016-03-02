@@ -1,0 +1,96 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+.container .text-muted {
+  margin: 20px 0;
+}
+
+/* Center block */
+.center-block {
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container{
+  max-width: 900px;
+  margin:0 auto;
+}
+
+/* Card small font css */
+.comment-phrase {
+  color: gray;
+  /*font-size: 1%;*/
+}
+
+/* Color class */
+.gray {
+  color: gray;
+}
+.black {
+  color: black;
+}
+.green {
+  color:green;
+}
+.red {
+  color:red;
+}
+.orange {
+  color:orange;
+}
+.blue {
+  color:deepskyblue;
+}
+.lightblue {
+  color: lightskyblue;
+}
+.yellow {
+  color:yellow;
+}
+
+/*style dropdown width*/
+.dropdown-menu {
+  min-width:300px;
+}
+/*style create Account modal width*/
+#createAccountModal .modal-dialog
+{
+  width: 30%;
+}
+
+/*use it in contest page add icon*/
+.addIconSize{
+  font-size: 25px;
+}
+
+/*use it in contest page start time*/
+.timeFont {
+  font-family: 'Jura', sans-serif;
+  color: CornflowerBlue;
+}
+
+.markFont {
+  font-family: 'Jura', sans-serif;
+}

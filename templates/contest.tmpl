@@ -1,0 +1,30 @@
+<br>
+<div class="container">
+  <ul class="nav nav-inline">
+    <li class="nav-item">
+      <a class="nav-link" href="/contest?cid={{.ContestID}}">Problems</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/contest/status?cid={{.ContestID}}">Status</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/contest/board?cid={{.ContestID}}">Board</a>
+    </li>
+  </ul>
+  <hr>
+  <div class="list-group">
+  {{range $i,$v := .Problems}}
+  <a href="/contest/problems?cid={{$.ContestID}}&&pid={{i2c $i}}" class="list-group-item">
+    <div class="row">
+      <div class="col-xs-1">
+        <h1 >{{i2c $i}}</h1>
+      </div>
+      <div col-xs-11>
+        <h4 class="list-group-item-heading markFont">{{if isAccepeted (i2c $i) $.User.ContestAcedProblems}}<del>{{end}}{{$v.Title}}{{if isAccepeted (i2c $i) $.User.ContestAcedProblems}}</del>{{end}}</h4>
+        <p class="list-group-item-text gray markFont"><small>{{$v.AcRate}}% ({{$v.Ac}}/{{$v.Total}})</small></p>
+      </div>
+    </div>
+  </a>
+  {{end}}
+</div>
+</div>
