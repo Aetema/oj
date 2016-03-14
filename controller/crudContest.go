@@ -24,7 +24,11 @@ func HandleAddContest(w http.ResponseWriter, r *http.Request) {
 		c := session.DB("oj").C("contests")
 		count, _ := c.Count()
 		contestID := strconv.Itoa(1000 + count)
-		c.Insert(&model.Contest{contestID, contestName, contestDescription, r.Form["contestStartTime"][0], contestStartTime, contestHowlong, strings.Join(contestProblems, " "), contestProblems})
+		haveAced := []bool{}
+		for i := 0; i < len(contestProblems); i++ {
+			haveAced = append(haveAced, false)
+		}
+		c.Insert(&model.Contest{contestID, contestName, contestDescription, r.Form["contestStartTime"][0], contestStartTime, contestHowlong, strings.Join(contestProblems, " "), contestProblems, haveAced})
 	}
 }
 

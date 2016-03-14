@@ -27,7 +27,7 @@
     <hr>
     <pre>{{.SampleOutput}}</pre>
     {{if $.Islogin}}
-    <form method="post" action="/contest/problems/submit?cid={{$.ContestID}}&&pid={{$.ContestProblemID}}">
+    <form method="post" action="/contest/problems/submit?cid={{$.ContestID}}&pid={{$.ContestProblemID}}">
       <h6>Code &nbsp;
       <select class="c-select" name="lang">
         <option selected>C++</option>

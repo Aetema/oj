@@ -58,6 +58,9 @@ func init() {
 		"myor": func(a bool, b bool) bool {
 			return a || b
 		},
+		"myidx": func(xs []bool, x int) bool {
+			return xs[x]
+		},
 	}
 	Render = render.New(render.Options{
 		Directory: "templates",
