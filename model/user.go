@@ -16,3 +16,15 @@ type User struct {
 	ContestWrongTimes []int
 	ContestAcedTime   []int
 }
+
+//ClosedUser : when board close , we only display the situation an hour ago
+type ClosedUser struct {
+	Username string
+
+	JoinedContest       string
+	ContestTotalAced    int
+	ContestTotalTime    int
+	ContestAcedProblems []string
+	ContestWrongTimes   []int
+	ContestAcedTime     []int
+}

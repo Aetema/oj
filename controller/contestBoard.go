@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"time"
 
 	"gopkg.in/mgo.v2/bson"
 
@@ -15,12 +16,18 @@ type boardPageStruct struct {
 	Islogin   bool
 }
 
+type closedBoardPageStruct struct {
+	Problems  []int
+	Users     []model.ClosedUser
+	ContestID string
+	Islogin   bool
+}
+
 //HandleContestBoard : handle contest board page
 func HandleContestBoard(w http.ResponseWriter, r *http.Request) {
 	cid := r.URL.Query().Get("cid")
 	session := getMongoS()
 	defer session.Close()
-	c := session.DB("oj").C("user")
 	contestCol := session.DB("oj").C("contests")
 	contest := model.Contest{}
 	contestCol.Find(bson.M{"contestid": cid}).One(&contest)
@@ -28,7 +35,27 @@ func HandleContestBoard(w http.ResponseWriter, r *http.Request) {
 	for i := range contest.ContestProblems {
 		problems = append(problems, i)
 	}
-	result := []model.User{}
-	c.Find(bson.M{"joinedcontest": cid}).Sort("-contesttotalaced", "contesttotaltime").All(&result)
-	Render.HTML(w, http.StatusFound, "contestBoard", boardPageStruct{problems, result, cid, GetIslogin(r)})
+
+	contestStartTime, _ := time.Parse("2006-01-02 15:04:05", contest.StartTime)
+	contestHowlong := contest.HowLong
+	contestEndTime := contestStartTime
+	contestCloseTime := contestStartTime
+	for i := 0; i < contestHowlong-1; i++ {
+		contestCloseTime = contestCloseTime.Add(time.Hour)
+	}
+	for i := 0; i < contestHowlong; i++ {
+		contestEndTime = contestEndTime.Add(time.Hour)
+	}
+	currentTime, _ := time.Parse("2006-01-02 15:04:05", time.Now().Format("2006-01-02 15:04:05"))
+	if currentTime.After(contestCloseTime) && currentTime.Before(contestEndTime) {
+		result := []model.ClosedUser{}
+		c := session.DB("oj").C("closeduser")
+		c.Find(bson.M{"joinedcontest": cid}).Sort("-contesttotalaced", "contesttotaltime").All(&result)
+		Render.HTML(w, http.StatusFound, "contestBoard", closedBoardPageStruct{problems, result, cid, GetIslogin(r)})
+	} else {
+		result := []model.User{}
+		c := session.DB("oj").C("user")
+		c.Find(bson.M{"joinedcontest": cid}).Sort("-contesttotalaced", "contesttotaltime").All(&result)
+		Render.HTML(w, http.StatusFound, "contestBoard", boardPageStruct{problems, result, cid, GetIslogin(r)})
+	}
 }
