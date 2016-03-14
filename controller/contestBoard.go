@@ -47,7 +47,7 @@ func HandleContestBoard(w http.ResponseWriter, r *http.Request) {
 		contestEndTime = contestEndTime.Add(time.Hour)
 	}
 	currentTime, _ := time.Parse("2006-01-02 15:04:05", time.Now().Format("2006-01-02 15:04:05"))
-	if currentTime.After(contestCloseTime) && currentTime.Before(contestEndTime) {
+	if currentTime.After(contestCloseTime) && currentTime.Before(contestEndTime) && !GetIsadmin(r) {
 		result := []model.ClosedUser{}
 		c := session.DB("oj").C("closeduser")
 		c.Find(bson.M{"joinedcontest": cid}).Sort("-contesttotalaced", "contesttotaltime").All(&result)
