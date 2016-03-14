@@ -10,4 +10,6 @@ type Contest struct {
 	HowLong             int //hours
 	FormContestProblems string
 	ContestProblems     []string
+
+	HaveAced []bool
 }
