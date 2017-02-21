@@ -7,3 +7,7 @@ if ! wget https://github.com/quark-zju/lrun/releases/download/v1.1.4/lrun_1.1.4_
 fi  
 sudo dpkg -i lrun_1.1.4_amd64.deb
 sudo gpasswd -a $USER lrun
+
+rm lrun_1.1.4_amd64.deb
+
+sudo service mongod start
