@@ -64,12 +64,14 @@ download_runtime(){
     cd redis-3.2.8
     make
     cd ${cur_dir}
+    rm redis-3.2.8.tar.gz
     
     if ! wget https://storage.googleapis.com/golang/go1.8.linux-amd64.tar.gz; then
         echo "Failed to download golang1.8"
         exit 1
     fi
     tar -zxvf go1.8.linux-amd64.tar.gz -C /usr/local/
+    rm go1.8.linux-amd64.tar.gz
     
     echo 'export GOROOT=/usr/local/go' >> ~/.bashrc
     echo 'export GOPATH=$HOME/go' >> ~/.bashrc
@@ -81,7 +83,12 @@ download_runtime(){
     
     go get github.com/urfave/negroni
     go get github.com/Miloas/oj/middleware
-    
+
+    git clone https://github.com/quark-zju/ljudge
+    cd ljudge
+    make 
+    make install 
+    cp etc/ljudge /etc/ljudge -r
 }
 
 
