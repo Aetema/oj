@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 
-source ~/.bashrc
-
 if ! wget https://github.com/quark-zju/lrun/releases/download/v1.1.4/lrun_1.1.4_amd64.deb; then
     echo "Failed to download lrun"
     exit 1
@@ -14,5 +12,4 @@ git clone https://github.com/quark-zju/ljudge
 cd ljudge
 make 
 make install 
-mkdir /etc/ljudge
-cp etc/ljudge /etc/ljudge -r
+sudo cp etc/ljudge /etc/ljudge -r

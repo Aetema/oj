@@ -44,7 +44,7 @@ pre_install(){
     char=`get_char`
     #Install necessary dependencies
     apt-get -y update
-    apt-get install -y wget unzip gzip curl make libseccomp2 mongodb
+    apt-get install -y wget unzip gzip curl make libseccomp2 mongodb g++
     echo
 }
 
@@ -92,3 +92,11 @@ config_env(){
 }
 
 config_env
+
+
+clear
+echo
+echo "#############################################################"
+echo "#                       快去改变世界                          #"
+echo "#############################################################"
+echo
