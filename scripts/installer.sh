@@ -73,24 +73,6 @@ download_runtime(){
 
     cd ${cur_dir}
     rm redis-3.2.8.tar.gz
-    
-    if ! wget https://storage.googleapis.com/golang/go1.8.linux-amd64.tar.gz; then
-        echo "Failed to download golang1.8"
-        exit 1
-    fi
-    tar -zxvf go1.8.linux-amd64.tar.gz -C /usr/local/
-    rm go1.8.linux-amd64.tar.gz
-    
-    echo 'export GOROOT=/usr/local/go' >> ~/.bashrc
-    echo 'export GOPATH=$HOME/go' >> ~/.bashrc
-    echo 'export PATH=$PATH:$GOROOT/bin:$GOPATH/bin' >> ~/.bashrc
-#   source ~/.bashrc
-    export GOROOT=/usr/local/go
-    export GOPATH=$HOME/go
-    export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-    
-    go get github.com/urfave/negroni
-    go get github.com/Miloas/oj/middleware
 
     git clone https://github.com/quark-zju/ljudge
     cd ljudge
