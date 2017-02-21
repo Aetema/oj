@@ -44,7 +44,7 @@ pre_install(){
     char=`get_char`
     #Install necessary dependencies
     apt-get -y update
-    apt-get install -y wget unzip gzip curl make libseccomp2 mongodb g++ openjdk-7-jdk
+    apt-get install -y wget unzip gzip curl make libseccomp2 mongodb g++ default-jre default-jdk
     echo
 }
 
