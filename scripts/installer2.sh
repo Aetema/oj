@@ -10,4 +10,4 @@ sudo gpasswd -a $USER lrun
 
 rm lrun_1.1.4_amd64.deb
 
-sudo service mongod start
+service mongod start

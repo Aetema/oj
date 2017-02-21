@@ -47,7 +47,6 @@ pre_install(){
     echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
     apt-get -y update
     apt-get install -y wget unzip gzip curl make libseccomp2 mongodb-org g++ default-jre default-jdk
-    service mongod start
     echo
 }
 
